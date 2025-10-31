@@ -21,14 +21,15 @@ Join the Discord community: https://discord.gg/qbcore
 
 ## Features
 
-- **Random Delay**: All jumpscares and sounds are triggered with a random delay between 1 and 10 seconds for each player, making them more unpredictable and fun!
+- **Event Queue System**: All jumpscares and sounds are queued and triggered sequentially with random delays between each event. This prevents overlapping effects and ensures each scare/sound plays completely before the next one starts.
+- **Random Timing**: Each queued event waits for a random delay before triggering, making the timing unpredictable and more suspenseful!
 
 ## Available Commands
 
 Command | Description | Example
 --- | --- | ---
-`/hello` | Play "hello" in your own ears (with random delay) | `/hello` or `/hello 1` (to send to ID 1)
-`/hellonear` | Play "hello" in your own ears and nearby players (with random delay) | `/hellonear` or `/hellonear 1` (to send to ID 1 and nearby players)
-`/findme` | Play "can you find me" in your own ears (with random delay) | `/findme` or `/findme 1` (to send to ID 1)
-`/findmenear` | Play "can you find me" in your own ears and nearby players (with random delay) | `/findmenear` or `/findmenear 1` (to send to ID 1 and nearby players)
-`/scare` | Send yourself a jumpscare (with random delay) | `/scare` or `/scare 1` (to send to ID 1)
+`/hello` | Queue "hello" sound to play after random delay | `/hello` or `/hello 1` (to send to ID 1)
+`/hellonear` | Queue "hello" sound for nearby players | `/hellonear` or `/hellonear 1` (to send to ID 1 and nearby players)
+`/findme` | Queue "can you find me" sound to play after random delay | `/findme` or `/findme 1` (to send to ID 1)
+`/findmenear` | Queue "can you find me" sound for nearby players | `/findmenear` or `/findmenear 1` (to send to ID 1 and nearby players)
+`/scare` | Queue a jumpscare to trigger after random delay | `/scare` or `/scare 1` (to send to ID 1)
