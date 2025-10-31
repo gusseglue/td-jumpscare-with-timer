@@ -6,61 +6,51 @@ local ValidExtensions = {
   ["jpeg"] = true
 }
 
--- Event queue system
-local eventQueue = {}
-local isProcessingQueue = false
+-- List of available scare events
+local scareEvents = {"scare", "hello", "findme"}
 
--- Function to add events to the queue
-local function addToQueue(eventType, eventData)
-	table.insert(eventQueue, {type = eventType, data = eventData})
-	if not isProcessingQueue then
-		processQueue()
+-- Function to trigger a specific scare type
+local function triggerScare(scareType)
+	if scareType == "scare" then
+		local DocumentUrl = 'https://r2.fivemanage.com/qmzgcjpDuAUvYzfat1CeL/jumpscare.png'
+		SendNUIMessage({
+			action = "open",
+			url = DocumentUrl
+		})
+		SetNuiFocus(true, false)
+		Wait(250)
+		TriggerServerEvent("InteractSound_SV:PlayOnSource", "jumpscare", 1.0)
+		Wait(2500)
+		SetNuiFocus(false, false)
+		SendNUIMessage({
+			action = "close",
+			url = DocumentUrl
+		})
+	elseif scareType == "hello" then
+		TriggerServerEvent("InteractSound_SV:PlayOnSource", "hello", 1.0)
+	elseif scareType == "findme" then
+		TriggerServerEvent("InteractSound_SV:PlayOnSource", "findme", 1.0)
 	end
 end
 
--- Function to process the event queue with random delays
-function processQueue()
-	CreateThread(function()
-		isProcessingQueue = true
-		while #eventQueue > 0 do
-			local event = table.remove(eventQueue, 1)
-			
-			-- Random delay between events
-			local randomDelay = math.random(10000, 10000000)
-			Wait(randomDelay)
-			
-			-- Trigger the appropriate event
-			if event.type == "scare" then
-				local DocumentUrl = 'https://r2.fivemanage.com/qmzgcjpDuAUvYzfat1CeL/jumpscare.png'
-				SendNUIMessage({
-					action = "open",
-					url = DocumentUrl
-				})
-				SetNuiFocus(true, false)
-				Wait(250)
-				TriggerServerEvent("InteractSound_SV:PlayOnSource", "jumpscare", 1.0)
-				Wait(2500)
-				SetNuiFocus(false, false)
-				SendNUIMessage({
-					action = "close",
-					url = DocumentUrl
-				})
-			elseif event.type == "hello" then
-				TriggerServerEvent("InteractSound_SV:PlayOnSource", "hello", 1.0)
-			elseif event.type == "hellonear" then
-				TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 7.0, "hello", 1.0)
-			elseif event.type == "findme" then
-				TriggerServerEvent("InteractSound_SV:PlayOnSource", "findme", 1.0)
-			elseif event.type == "findmenear" then
-				TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 7.0, "findme", 1.0)
-			end
-		end
-		isProcessingQueue = false
-	end)
-end
+-- Automatic random scare system
+CreateThread(function()
+	while true do
+		-- Random delay between 10 seconds and 10 minutes (10000ms to 600000ms)
+		local randomDelay = math.random(10000, 600000)
+		Wait(randomDelay)
+		
+		-- Randomly select a scare type
+		local randomIndex = math.random(1, #scareEvents)
+		local selectedScare = scareEvents[randomIndex]
+		
+		-- Trigger the selected scare
+		triggerScare(selectedScare)
+	end
+end)
 
 RegisterNetEvent('just-scare-it', function(ItemData)
-	addToQueue("scare", ItemData)
+	triggerScare("scare")
 end)
 
 RegisterNUICallback('CloseDocument', function()
@@ -68,18 +58,18 @@ RegisterNUICallback('CloseDocument', function()
 end)
 
 RegisterNetEvent('just-hello-it', function()
-	addToQueue("hello", nil)
+	triggerScare("hello")
 end)
 
 RegisterNetEvent('km:hellonear', function()
-	addToQueue("hellonear", nil)
+	TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 7.0, "hello", 1.0)
 end)
 
 RegisterNetEvent('just-findme-it', function()
-	addToQueue("findme", nil)
+	triggerScare("findme")
 end)
 
 RegisterNetEvent('just-findmenear-it', function()
-	addToQueue("findmenear", nil)
+	TriggerServerEvent("InteractSound_SV:PlayWithinDistance", 7.0, "findme", 1.0)
 end)
 

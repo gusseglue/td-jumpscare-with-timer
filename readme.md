@@ -21,15 +21,18 @@ Join the Discord community: https://discord.gg/qbcore
 
 ## Features
 
-- **Event Queue System**: All jumpscares and sounds are queued and triggered sequentially with random delays between each event. This prevents overlapping effects and ensures each scare/sound plays completely before the next one starts.
-- **Random Timing**: Each queued event waits for a random delay before triggering, making the timing unpredictable and more suspenseful!
+- **Automatic Random Scares**: The system automatically triggers random jumpscares and sounds at random intervals between 10 seconds and 10 minutes. No manual commands needed - the scares happen automatically!
+- **Random Selection**: Each automatic trigger randomly selects from different scare types (jumpscare, hello sound, or findme sound)
+- **Manual Override**: Commands still work for manually triggering specific scares when needed
 
 ## Available Commands
 
 Command | Description | Example
 --- | --- | ---
-`/hello` | Queue "hello" sound to play after random delay | `/hello` or `/hello 1` (to send to ID 1)
-`/hellonear` | Queue "hello" sound for nearby players | `/hellonear` or `/hellonear 1` (to send to ID 1 and nearby players)
-`/findme` | Queue "can you find me" sound to play after random delay | `/findme` or `/findme 1` (to send to ID 1)
-`/findmenear` | Queue "can you find me" sound for nearby players | `/findmenear` or `/findmenear 1` (to send to ID 1 and nearby players)
-`/scare` | Queue a jumpscare to trigger after random delay | `/scare` or `/scare 1` (to send to ID 1)
+`/hello` | Manually trigger "hello" sound | `/hello` or `/hello 1` (to send to ID 1)
+`/hellonear` | Play "hello" sound to nearby players | `/hellonear` or `/hellonear 1` (to send to ID 1 and nearby players)
+`/findme` | Manually trigger "can you find me" sound | `/findme` or `/findme 1` (to send to ID 1)
+`/findmenear` | Play "can you find me" sound to nearby players | `/findmenear` or `/findmenear 1` (to send to ID 1 and nearby players)
+`/scare` | Manually trigger a jumpscare | `/scare` or `/scare 1` (to send to ID 1)
+
+**Note**: The automatic random scare system runs continuously in the background for all players. Commands are only needed for manual/forced triggers.
